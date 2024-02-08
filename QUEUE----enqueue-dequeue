@@ -1,0 +1,64 @@
+public class Queue {
+    private int[] elements;
+    private int front; // index of the front element
+    private int rear;  // index where the next element should be inserted
+    private int size;  // current number of elements in the queue
+
+    public Queue(int capacity) {
+        elements = new int[capacity];
+        front = 0;
+        rear = 0;
+        size = 0;
+    }
+
+    public void enqueue(int item) {
+        if (size == elements.length) {
+            System.out.println("Queue is full. Cannot enqueue.");
+            return;
+        }
+        elements[rear] = item;
+        rear = (rear + 1) % elements.length;
+        size++;
+    }
+
+    public int dequeue() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty. Cannot dequeue.");
+            return -1; // return a sentinel value or throw an exception
+        }
+        int item = elements[front];
+        front = (front + 1) % elements.length;
+        size--;
+        return item;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public static void main(String[] args) {
+        Queue q = new Queue(5); // Queue with capacity 5
+        q.enqueue(1);
+        q.enqueue(2);
+        q.enqueue(3);
+        q.enqueue(4);
+        q.enqueue(5);
+
+        // Trying to enqueue beyond capacity
+        q.enqueue(6); // This should print "Queue is full. Cannot enqueue."
+
+        System.out.println("Queue size: " + q.size());
+
+        // Dequeue all elements
+        while (!q.isEmpty()) {
+            System.out.println("Dequeued item: " + q.dequeue());
+        }
+
+        // Trying to dequeue from an empty queue
+        q.dequeue(); // This should print "Queue is empty. Cannot dequeue."
+    }
+}
