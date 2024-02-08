@@ -1,0 +1,76 @@
+import java.util.Scanner;
+
+class Stack {
+    private char[] stackArray;
+    private int top;
+    private int maxSize;
+
+    public Stack(int size) {
+        maxSize = size;
+        stackArray = new char[maxSize];
+        top = -1;
+    }
+
+    public void push(char c) {
+        if (top < maxSize - 1) {
+            stackArray[++top] = c;
+        } else {
+            System.out.println("Stack overflow");
+        }
+    }
+
+    public char pop() {
+        if (top >= 0) {
+            return stackArray[top--];
+        } else {
+            System.out.println("Stack underflow");
+            return '\0'; // Return null character indicating empty stack
+        }
+    }
+
+    public char peek() {
+        if (top >= 0) {
+            return stackArray[top];
+        } else {
+            System.out.println("Stack is empty");
+            return '\0'; // Return null character indicating empty stack
+        }
+    }
+
+    public boolean isEmpty() {
+        return (top == -1);
+    }
+}
+
+public class BracketMatching {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the String");
+        String str = sc.nextLine();
+
+        int stackSize = str.length(); // Assume maximum size of stack as length of input string
+        Stack st = new Stack(stackSize);
+
+        for (int i = 0; i < str.length(); i++) {
+
+            if (str.charAt(i) == '{' || str.charAt(i) == '(' || str.charAt(i) == '[') {
+                st.push(str.charAt(i));
+            } else if (!st.isEmpty() && (
+                    (str.charAt(i) == '}' && st.peek() == '{') ||
+                    (str.charAt(i) == ')' && st.peek() == '(') ||
+                    (str.charAt(i) == ']' && st.peek() == '['))) {
+                st.pop();
+            } else {
+                st.push(str.charAt(i));
+            }
+        }
+
+        if (st.isEmpty()) {
+            System.out.println("String is balanced");
+        } else {
+            System.out.println("String is not balanced");
+        }
+    }
+}
