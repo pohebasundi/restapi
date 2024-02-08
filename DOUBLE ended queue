@@ -1,0 +1,90 @@
+public class Deque {
+    private int[] elements;
+    private int front;
+    private int rear;
+    private int size;
+    private int capacity;
+
+    public Deque(int capacity) {
+        this.capacity = capacity;
+        elements = new int[capacity];
+        front = 0;
+        rear = 0;
+        size = 0;
+    }
+
+    public void insertFront(int item) {
+        if (size == capacity) {
+            System.out.println("Deque is full. Cannot insert at front.");
+            return;
+        }
+        front = (front - 1 + capacity) % capacity;
+        elements[front] = item;
+        size++;
+    }
+
+    public void insertRear(int item) {
+        if (size == capacity) {
+            System.out.println("Deque is full. Cannot insert at rear.");
+            return;
+        }
+        elements[rear] = item;
+        rear = (rear + 1) % capacity;
+        size++;
+    }
+
+    public int deleteFront() {
+        if (isEmpty()) {
+            System.out.println("Deque is empty. Cannot delete from front.");
+            return -1; // Return a sentinel value or throw an exception
+        }
+        int item = elements[front];
+        front = (front + 1) % capacity;
+        size--;
+        return item;
+    }
+
+    public int deleteRear() {
+        if (isEmpty()) {
+            System.out.println("Deque is empty. Cannot delete from rear.");
+            return -1; // Return a sentinel value or throw an exception
+        }
+        rear = (rear - 1 + capacity) % capacity;
+        int item = elements[rear];
+        size--;
+        return item;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public boolean isFull() {
+        return size == capacity;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public static void main(String[] args) {
+        Deque deque = new Deque(5);
+
+        deque.insertRear(1);
+        deque.insertRear(2);
+        deque.insertRear(3);
+        deque.insertFront(4);
+        deque.insertFront(5);
+
+        System.out.println("Deque size: " + deque.size());
+
+        // Deleting from both ends
+        System.out.println("Deleted from front: " + deque.deleteFront());
+        System.out.println("Deleted from rear: " + deque.deleteRear());
+
+        // Trying to insert beyond capacity
+        deque.insertFront(6); // This should print "Deque is full. Cannot insert at front."
+
+        System.out.println("Deque size after deletions: " + deque.size());
+    }
+}
