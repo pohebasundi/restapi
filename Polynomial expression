@@ -1,0 +1,74 @@
+import java.util.Scanner;
+
+public class Poly {
+	
+    // Display polynomial
+	
+    static void displayPolynomial(int degree, int[] coefficients) {
+    	
+        StringBuilder polynomial = new StringBuilder();
+        
+        for (int i = degree; i >= 0; i--) {
+            if (coefficients[i] != 0) {
+                polynomial.append(coefficients[i]);
+                if (i != 0) {
+                    polynomial.append("x");
+                    if (i != 1) {
+                        polynomial.append("^").append(i);
+                    }
+                }
+                
+                
+                if (i != 0 && coefficients[i - 1] > 0) {
+                    polynomial.append(" + ");
+                } else if (i != 0 && coefficients[i - 1] < 0) {
+                    polynomial.append(" - ");
+                }
+            }
+        }
+        
+        
+        System.out.println("Polynomial entered:");
+        System.out.println(polynomial);
+    }
+    
+
+    // Evaluate polynomial
+    
+    
+    static int evaluatePolynomial(int degree, int[] coefficients, int x) {
+        int result = 0;
+        for (int i = degree; i >= 0; i--) {
+            result += coefficients[i] * Math.pow(x, i);
+        }
+        return result;
+    }
+    
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input
+        
+        System.out.println("Enter the degree of polynomial");
+        int degree = scanner.nextInt();
+        int[] coefficients = new int[degree + 1];
+
+        
+        System.out.println("Enter the coefficients of the polynomial");
+        for (int i = degree; i >= 0; i--) {
+            coefficients[i] = scanner.nextInt();
+        }
+
+        // Display polynomial
+        displayPolynomial(degree, coefficients);
+
+        // Evaluation
+        System.out.println("Enter the value of x for evaluation");
+        int x = scanner.nextInt();
+        int result = evaluatePolynomial(degree, coefficients, x);
+        System.out.println("Result of evaluation: " + result);
+
+        scanner.close();
+    }
+}
