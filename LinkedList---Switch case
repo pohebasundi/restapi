@@ -1,0 +1,130 @@
+package Ll;
+
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class LinkedList {
+    private Node head;
+
+    LinkedList() {
+        head = null;
+    }
+
+    // Method to add a new node at the end of the linked list
+    void add(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+        System.out.println(data + " added to the list.");
+    }
+
+    // Method to delete a node with given data
+    void delete(int data) {
+        if (head == null) {
+            System.out.println("List is empty. Nothing to delete.");
+            return;
+        }
+        if (head.data == data) {
+            head = head.next;
+            System.out.println(data + " deleted from the list.");
+            return;
+        }
+        Node temp = head;
+        Node prev = null;
+        while (temp != null && temp.data != data) {
+            prev = temp;
+            temp = temp.next;
+        }
+        if (temp == null) {
+            System.out.println(data + " not found in the list.");
+        } else {
+            prev.next = temp.next;
+            System.out.println(data + " deleted from the list.");
+        }
+    }
+
+    // Method to display the linked list in normal order
+    void display() {
+        Node temp = head;
+        System.out.print("List in normal order: ");
+        while (temp != null) {
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+
+    // Method to display the linked list in reverse order
+    void displayReverse(Node node) {
+        if (node == null)
+            return;
+        displayReverse(node.next);
+        System.out.print(node.data + " ");
+    }
+
+    void displayReverse() {
+        System.out.print("List in reverse order: ");
+        displayReverse(head);
+        System.out.println();
+    }
+}
+
+public class List {
+    public static void main(String[] args) {
+        LinkedList list = new LinkedList();
+        Scanner scanner = new Scanner(System.in);
+        int choice, data;
+
+        do {
+            System.out.println("\nMenu:");
+            System.out.println("1. Add an element");
+            System.out.println("2. Delete an element");
+            System.out.println("3. Display in normal order");
+            System.out.println("4. Display in reverse order");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter data to add: ");
+                    data = scanner.nextInt();
+                    list.add(data);
+                    break;
+                case 2:
+                    System.out.print("Enter data to delete: ");
+                    data = scanner.nextInt();
+                    list.delete(data);
+                    break;
+                case 3:
+                    list.display();
+                    break;
+                case 4:
+                    list.displayReverse();
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        } while (choice != 5);
+        scanner.close();
+    }
+}
